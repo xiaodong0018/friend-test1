@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>测测你的友情占有欲有多强？</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "PingFang SC", "Microsoft Yahei", sans-serif;
+    }
+    body {
+      background-color: #f3e9fb;
+      padding: 20px 16px;
+    }
+    .wrap {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: 0 4px 20px rgba(140, 90, 200, 0.12);
+    }
+    .page-home {
+      text-align: center;
+    }
+    .home-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 5px solid #f1d6ff;
+      box-shadow: 0 10px 24px rgba(150, 90, 190, 0.3);
+      object-fit: cover;
+      margin-bottom: 24px;
+    }
+    .home-title {
+      font-size: 24px;
+      color: #5b2b82;
+      font-weight: bold;
+      margin-bottom:16px;
+    }
+    .home-desc {
+      font-size:16px;
+      color:#666;
+      margin-bottom:20px;
+      line-height:1.6;
+    }
+    .home-tip {
+      font-size:14px;
+      color:#999;
+      margin-bottom:36px;
+    }
+    .btn-start {
+      width:100%;
+      background-color:#884fb8;
+      color:#fff;
+      border:none;
+      font-size:18px;
+      padding:16px;
+      border-radius:16px;
+      cursor:pointer;
+      transition: 0.2s;
+    }
+    .btn-start:hover {
+      background-color:#7540a0;
+    }
+    .page-question {
+      display:none;
+    }
+    .q-index {
+      font-size:15px;
+      color:#884fb8;
+      margin-bottom:12px;
+    }
+    .q-title {
+      font-size:18px;
+      color:#333;
+      margin-bottom:24px;
+      line-height:1.5;
+    }
+    .option-item {
+      border:1px solid #e6d9f4;
+      border-radius:14px;
+      padding:16px;
+      margin-bottom:12px;
+      cursor:pointer;
+      transition:0.2s;
+    }
+    .option-item:hover {
+      background-color:#f3e9fb;
+      border-color:#b88ede;
+    }
+    .option-item.active {
+      background-color:#e9daf7;
+      border-color:#884fb8;
+    }
+    .tip-text{
+      color:#e74c3c;
+      text-align:center;
+      margin-top:12px;
+      min-height:22px;
+    }
+    .page-result {
+      display:none;
+      text-align:center;
+    }
+    .result-avatar{
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      border:5px solid #f1d6ff;
+      box-shadow:0 10px 24px rgba(150, 90, 190, 0.3);
+      object-fit:cover;
+      margin:0 auto 24px;
+    }
+    .result-title {
+      font-size:22px;
+      color:#5b2b82;
+      font-weight:bold;
+      margin-bottom:16px;
+    }
+    .result-desc {
+      font-size:16px;
+      color:#444;
+      line-height:1.7;
+      text-align:left;
+      padding:0 8px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="page-home" id="pageHome">
+    <img class="home-avatar" src="https://s41.ax1x.com/2026/10/28/pnykPtH.png">
+    <h1 class="home-title">🔥 测测你的友情占有欲有多强？</h1>
+    <p class="home-desc">凭第一直觉选择，测完看看你多少分，敢不敢发给她对号入座？</p>
+    <p class="home-tip">仅供娱乐，非专业心理评估</p>
+    <button class="btn-start" onclick="startTest()">开始测试 🚀</button>
+  </div>
+
+  <div class="page-question" id="pageQuestion">
+    <div class="q-index" id="qIndex"></div>
+    <div class="q-title" id="qTitle"></div>
+    <div id="optionBox"></div>
+    <div class="tip-text" id="tipText"></div>
+  </div>
+
+  <div class="page-result" id="pageResult">
+    <img class="result-avatar" id="resImg">
+    <h2 class="result-title" id="resTitle"></h2>
+    <div class="result-desc" id="resDesc"></div>
+  </div>
+</div>
+
+<script>
+const questionList = [
+  {title:"闺蜜有了新朋友，经常一起玩，很少找你，你会？",opt:[{t:"很难过，忍不住吃醋，希望她只跟我最好",s:10},{t:"心里不舒服，会默默疏远一段时间",s:7},{t:"有点在意，但不会表现出来",s:4},{t:"很正常，真心替她开心",s:1}]},
+  {title:"闺蜜约会时优先陪对象，放了你鸽子，你的想法？",opt:[{t:"很生气，觉得爱情抢走了她",s:10},{t:"委屈，会跟她说自己很难受",s:7},{t:"理解，但还是有点失落",s:4},{t:"尊重她的选择，自己找点别的事做",s:1}]},
+  {title:"你希望闺蜜怎么对待你们的合照？",opt:[{t:"只发和你的合照，不要发和别人的",s:10},{t:"优先发我们俩的合照",s:7},{t:"随便，别忽略我就行",s:4},{t:"她想发谁都可以",s:1}]},
+  {title:"闺蜜跟别人吐槽心事，没有先来找你，你？",opt:[{t:"非常受伤，觉得自己不再是她最重要的人",s:10},{t:"有点难过，会直接问她",s:7},{t:"轻微介意，但不会深究",s:4},{t:"每个人都有不同倾诉对象，无所谓",s:1}]},
+  {title:"和闺蜜约定的旅行，她想带上另一个朋友，你？",opt:[{t:"拒绝，只想和她两个人单独出行",s:10},{t:"不开心，勉强同意但全程放不开",s:7},{t:"有点别扭，但可以接受",s:4},{t:"人多更热闹，完全没问题",s:1}]},
+  {title:"你会不会反复确认自己是不是闺蜜最好的朋友？",opt:[{t:"经常，很需要这种安全感",s:10},{t:"偶尔，忍不住试探",s:7},{t:"很少，想起来才会在意",s:4},{t:"从来不会，不需要确认",s:1}]},
+  {title:"闺蜜对你很好，但也同样对别人很好，你？",opt:[{t:"嫉妒，希望她的偏爱只给我",s:10},{t:"心里会不平衡",s:7},{t:"可以接受，只是希望自己特殊一点",s:4},{t:"她善良对谁都好，这是优点",s:1}]},
+  {title:"很久没有收到闺蜜消息，你的第一反应？",opt:[{t:"胡思乱想，担心她不需要我了",s:10},{t:"有点失落，等着她来找我",s:7},{t:"会主动找她聊聊",s:4},{t:"各自忙碌，有空再聊",s:1}]},
+  {title:"如果闺蜜未来定居很远的城市，你？",opt:[{t:"很难接受，害怕关系变淡",s:10},{t:"舍不得，会担心慢慢疏远",s:7},{t:"舍不得，但尊重她的决定",s:4},{t:"距离不影响真正的友情",s:1}]},
+  {title:"你觉得好朋友之间，需要时时刻刻分享日常吗？",opt:[{t:"必须要，不分享就是疏远了",s:10},{t:"尽量多分享，不分享会不安",s:7},{t:"有空就分享，没空也没关系",s:4},{t:"不用，各自有自己的生活",s:1}]}
+]
+const resultMap = [
+  {
+    min:85,
+    max:100,
+    title:"👑 钮祜禄・闺蜜（占有欲天花板）",
+    img:"https://s41.ax1x.com/2026/10/28/pnykPtH.png",
+    desc:"🔍 名场面还原\n安陵容对甄嬛的那句 \"嬛姐姐是我唯一的光\"，就是你的日常内心戏。甄嬛今天对谁笑多了、夸了谁、和谁走得近，你全看在眼里，嘴上不提，心里已经在给 \"背叛\" 定罪。她一旦和别人热络起来，你就像安陵容看到甄嬛身边围满新人一样 —— 表面温顺，内里醋海翻腾。\n\n💥 你的真实写照\n你测出这个结果，说明你大概率是那种 \"把最好的朋友当成全世界\" 的人。你会记住她随口说过的小心愿，会把她放在朋友圈置顶，会因为她一条没秒回的消息反复自我怀疑。你不是坏，你是太怕失去，怕到用 \"占有\" 来确认 \"她还在\"。\n\n🌊 深层原因\n这种极度占有欲，往往不是因为太爱，而是因为太缺安全感。可能你在关系里吃过亏、可能你骨子里不相信自己会被坚定选择，所以你只能用 \"掌控\" 来对冲 \"被抛下\" 的恐惧。安陵容的悲剧，恰恰源于她把价值感全押在甄嬛身上。\n\n🛠️ 给现实你的建议\n① 别用冷战和阴阳怪气表达在乎，直接说 \"我今天有点吃醋了\"；② 试着发展自己的其他圈子，把一部分重心放回自己身上；③ 告诉自己：她选择留下来是爱你，不是欠你。真正的 \"唯一\" 是吸引来的，不是捆绑来的。"
+  },
+  {
+    min:70,
+    max:84,
+    title:"💘 纯爱战士・友情版（高占有预警）",
+    img:"https://s41.ax1x.com/2026/10/28/pnyFvX6.png",
+    desc:"🔍 名场面还原\n七月和安生，就是你俩的缩影。你掏心掏肺地爱一个人，恨不得把命都给她，但你也接受不了她生命里有 \"别人\" 的位置 —— 哪怕那是爱情。一旦觉得 \"她最爱的不再是我\"，你的天就塌了，情绪崩溃、患得患失，像七月看着安生越走越远时那种 \"我只有你了\" 的执念。\n\n💥 你的真实写照\n你是友情里的 \"纯爱战神\"：认定一个人就死心塌地，会毫无保留地付出，也默认对方要同样毫无保留地回应。你不是不知道要克制，你是做不到 —— 因为在你心里，这段友谊早就重过一切。\n\n🌊 深层原因\n你的占有欲带着强烈的 \"托付感\"：你把自我价值、情绪出口都寄托在这段关系上。越用力爱，越怕被分走，所以对方稍微一淡，你就恐慌。这其实是把友情当成了 \"唯一的锚\"，失去了它，你就觉得自己一无所有。\n\n🛠️ 给现实你的建议\n① 允许朋友有其他人，不等于你不重要，这是两码事；② 把 \"她必须最在乎我\" 改成 \"她在我需要时在\"，你会轻松很多；③ 学着把一部分感情收回来爱自己 —— 纯爱值得，但不能是孤注一掷。真正的纯爱，是给了你底气，而不是掏空你。"
+  },
+  {
+    min:55,
+    max:69,
+    title:"😔 嘴硬心软小醋精（中占有）",
+    img:"https://s41.ax1x.com/2026/10/28/pnykp7D.png",
+    desc:"🔍 名场面还原\n沈眉庄最戳人的，就是她对甄嬛那种 \"护短又克制\" 的偏心。别人靠近甄嬛，她不会当众发作，但会暗自记在心里、暗暗发酸；甄嬛偏向别人时，她面上体面，心里却委屈。她所有的醋意，都藏在 \"我没事\" 三个字后面 —— 这简直就是你的日常。\n\n💥 你的真实写照\n你是典型的外稳内酸：嘴上云淡风轻 \"我生什么气\"，心里的小本本已经记了好几页。你特别在意自己在对方心里的 \"特殊位置\"，一旦感觉被比下去，你不会闹，但会悄悄降温、暗暗较劲，等着对方来哄。\n\n🌊 深层原因\n你的占有欲处于 \"清醒的克制\" 和 \"忍不住的在意\" 之间。你懂分寸、讲道理，但你太需要 \"被偏爱的确定感\" 了。你不是想独占她，你只是需要知道 —— 在她心里，你始终有一个别人进不去的位置。\n\n🛠️ 给现实你的建议\n① 你的别扭其实是可爱的，但别让它变成冷战；② 吃醋了就说出来，一句 \"你刚刚夸别人，我酸了\" 比憋着有效一百倍；③ 相信你的位置是牢固的，偶尔的 \"被分走\" 不代表被替代。嘴硬心软的你，其实最值得被好好哄。"
+  },
+  {
+    min:40,
+    max:54,
+    title:"💅 人间清醒闺蜜（健康占有）",
+    img:"https://s41.ax1x.com/2026/10/28/pnyFj6x.png",
+    desc:"🔍 名场面还原\n朱锁锁对蒋南孙的保护，就是友情最理想的样子：你落难，我倾家荡产也要捞你；但你要走自己的路，我绝不拦你。锁锁从不会说 \"你只能有我\"，她只会说 \"我永远站你这边\"。她护她，但不绑她 —— 这份偏爱，克制又滚烫。\n\n💥 你的真实写照\n你测出这个结果，说明你属于 \"情绪稳定且爱得明白\" 的类型。你会在她低谷时兜底、撑腰，也会在她有新朋友、新恋爱时真心祝福。你在意她，但从不把 \"她必须最在乎我\" 当成友谊的及格线。你给得起空间，也给得起真心。\n\n🌊 深层原因\n你的占有欲之所以健康，是因为你的安全感不靠 \"独占\" 来维持。你相信真正的友谊经得起人来人往，你给的偏爱是 \"我永远是你退路\"，而不是 \"你只能有我这一个出口\"。你把爱经营成了松弛，反而最让人离不开。\n\n🛠️ 给现实你的建议\n① 保持这份清醒，但别 \"懂事\" 过头 —— 偶尔也让对方知道你很在意她；② 下次她幸福时，除了祝福，也可以说一句 \"你开心，我也特别开心，但我也想你\"；③ 放心，你这种 \"站她这边但不捆绑她\" 的偏爱，是友情里最稀缺的珍贵。"
+  },
+  {
+    min:25,
+    max:39,
+    title:"☁️ 淡人闺蜜・松弛感拉满（低占有）",
+    img:"https://s41.ax1x.com/2026/10/28/pnyFznK.png",
+    desc:"🔍 名场面还原\n菲比就是友情里的 \"松弛感天花板\"：她不黏人、不查岗、不吃醋。朋友们各自有生活，她永远真心祝福；想见就聚，分开也完全不内耗。她从不纠结 \"自己是不是对方的第一位\"，因为她相信，舒服的友谊不用证明。\n\n💥 你的真实写照\n你基本是菲比的翻版：她跟谁玩、点没点赞、回不回消息，你都不怎么在意。你不会因为她的冷淡失眠，也不会因为她的新朋友吃醋。你的占有欲低到尘埃，甚至低到 —— 有时候朋友会忍不住怀疑 \"你到底在不在乎我\"。\n\n🌊 深层原因\n你的松弛，一半是通透，一半是过度不索取。你可能习惯了不给别人添麻烦，习惯了自己的情绪自己消化，所以连 \"需要她\" 都不愿意表达。这份独立很强大，但也可能在别人眼里成了 \"你不需要我\"。\n\n🛠️ 给现实你的建议\n① 你的 \"无所谓\" 里其实有在乎，偶尔要让她看见；② 主动发条消息、主动约一次饭，别让 \"随缘\" 变成 \"疏远\"；③ 适当地 \"麻烦\" 她一下 —— 真正的亲密，是从敢开口要陪伴开始的。松弛是优点，但别让爱你的人永远猜你的心。"
+  },
+  {
+    min:10,
+    max:24,
+    title:"🤡 边界感天花板（超低占有）",
+    img:"https://s41.ax1x.com/2026/10/28/pnykCAe.png",
+    desc:"🔍 名场面还原\n安迪是那种把边界感刻进骨子里的人：她尊重所有人的独立空间，不捆绑、不追问、不索取情绪价值。对她来说，好朋友是彼此支撑，但互不干涉人生，关系来去自由。别人都羡慕她的清醒，但也常觉得 —— 她好像离谁都有点远。\n\n💥 你的真实写照\n你几乎不查岗、不吃醋、不追问，占有欲低到尘埃，甚至低到存在感都快没了。你从不要求她把你放第一位，也从不因为她有别的朋友而难过。你以为这是懂事，但在她看来，可能就变成了 \"她好像不太需要我\"。\n\n🌊 深层原因\n你的低占有，背后可能是过度自我保护。你可能经历过失望，所以干脆不期待、不索取，用 \"无所谓\" 来避免受伤。你给自己筑了一道 \"不依赖任何人\" 的墙，安全是安全了，但也把想靠近你的人挡在了外面。\n\n🛠️ 给现实你的建议\n① 友情是需要互动的，不是靠 \"不打扰\" 维持的；② 从今天起，主动发一条消息、主动约一次饭，让她知道你其实在意；③ 试着卸下一点防备，允许自己 \"需要\" 别人 —— 真正的安全感，不是不依赖任何人，而是知道有人可以依赖，而你也敢开口。"
+  }
+]
+
+let currentQ = 0;
+let answerList = [];
+const totalQ = questionList.length;
+
+function showPage(id) {
+  document.querySelectorAll(".page-home,.page-question,.page-result").forEach(el=>el.style.display="none")
+  document.getElementById(id).style.display="block";
+}
+
+// 页面加载读取历史结果
+window.onload = function(){
+  const saved = localStorage.getItem("friendTestData");
+  if(saved){
+    const resData = JSON.parse(saved);
+    document.getElementById("resImg").src = resData.img;
+    document.getElementById("resTitle").innerText = resData.title;
+    document.getElementById("resDesc").innerText = resData.desc;
+    showPage("pageResult");
+  }else{
+    showPage("pageHome");
+  }
+}
+
+function startTest(){
+  currentQ = 0;
+  answerList = [];
+  renderQuestion();
+  showPage("pageQuestion");
+}
+
+function renderQuestion(){
+  const q = questionList[currentQ];
+  document.getElementById("qIndex").innerText = `第 ${currentQ+1} / ${totalQ} 题`;
+  document.getElementById("qTitle").innerText = q.title;
+  const box = document.getElementById("optionBox");
+  box.innerHTML = "";
+  document.getElementById("tipText").innerText = "";
+
+  q.opt.forEach((item,idx)=>{
+    const div = document.createElement("div");
+    div.className = "option-item";
+    div.innerText = item.t;
+    div.onclick = ()=>{
+      answerList[currentQ] = item.s;
+      if(currentQ < totalQ -1){
+        currentQ++;
+        renderQuestion();
+      }else{
+        let totalScore = 0;
+        answerList.forEach(s=>totalScore += s);
+        let res = resultMap[resultMap.length-1];
+        for(let r of resultMap){
+          if(totalScore >= r.min && totalScore <= r.max){
+            res = r;
+            break;
+          }
+        }
+        localStorage.setItem("friendTestData", JSON.stringify(res));
+        document.getElementById("resImg").src = res.img;
+        document.getElementById("resTitle").innerText = res.title;
+        document.getElementById("resDesc").innerText = res.desc;
+        showPage("pageResult");
+      }
+    }
+    box.appendChild(div);
+  })
+}
+</script>
+</body>
+</html>
